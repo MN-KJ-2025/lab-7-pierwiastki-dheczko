@@ -25,7 +25,14 @@ def roots_20(coef: np.ndarray) -> tuple[np.ndarray, np.ndarray] | None:
             - Wektor miejsc zerowych (m,).
         Jeżeli dane wejściowe są niepoprawne funkcja zwraca `None`.
     """
-    pass
+
+    if not isinstance(coef, np.ndarray) or coef.ndim != 1:
+        return None
+    
+    noise = np.random.random_sample(coef.shape) * 1e-10
+    perturbed_coef = coef + noise
+    roots = nppoly.polyroots(perturbed_coef)
+    return perturbed_coef, roots
 
 
 def frob_a(coef: np.ndarray) -> np.ndarray | None:
