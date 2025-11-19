@@ -55,7 +55,20 @@ def frob_a(coef: np.ndarray) -> np.ndarray | None:
         (np.ndarray): Macierz Frobeniusa o rozmiarze (n,n).
         Jeżeli dane wejściowe są niepoprawne funkcja zwraca `None`.
     """
-    pass
+
+    if not isinstance(coef, np.ndarray) or coef.ndim != 1:
+        return None
+    
+    n = coef.shape[0]
+    if n < 2 or coef[-1] == 0:
+        return None
+
+    F = np.zeros((n-1, n-1))
+    for i in range(n - 2):
+        F[i, i + 1] = 1.0
+    F[-1, :] = -coef[:-1] / coef[-1]
+    
+    return F
 
 
 def is_nonsingular(A: np.ndarray) -> bool | None:
